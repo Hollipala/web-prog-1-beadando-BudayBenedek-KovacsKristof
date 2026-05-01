@@ -1,7 +1,7 @@
 # Web programozás-1 — Házi feladat
 
-**Készítette:** Kovács Kristóf  
-**Neptun kód:** XADNA6  
+**Készítette:** Kovács Kristóf Buday Benedek 
+**Neptun kód:** XADNA6 - OXQLH4
 **Téma:** Magyar Feltalálók — adatbázis kezelő web-alkalmazás
 
 ---
