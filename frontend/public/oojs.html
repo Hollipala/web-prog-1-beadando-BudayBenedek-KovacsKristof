@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OOJS Rajzoló — Web programozás-1</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header" data-testid="app-header">
+    <div class="inner">
+      <p class="ornament">❦  ❦  ❦</p>
+      <h1 data-testid="main-heading">Web programozás-1 Előadás Házi feladat</h1>
+      <p class="sub">Magyar Feltalálók — Adatbázis kezelő alkalmazás · 2026</p>
+      <nav class="site-nav" data-testid="main-nav">
+        <a href="/">Főoldal</a>
+        <a href="/javascript.html">JavaScript</a>
+        <a href="/react.html">React</a>
+        <a href="/spa.html">SPA</a>
+        <a href="/fetchapi.html">Fetch API</a>
+        <a href="/axios.html">Axios</a>
+        <a href="/oojs.html" class="active">OOJS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main data-testid="oojs-page">
+    <div class="page-title">
+      <p class="chapter">VII. FEJEZET</p>
+      <h2>Objektumorientált JS — Rajzoló</h2>
+      <p>class · constructor · metódusok · extends · super · document.body.appendChild</p>
+    </div>
+
+    <div class="parchment mb-6">
+      <div class="oojs-toolbar">
+        <div class="oojs-tools" data-testid="oojs-tools">
+          <button id="tool-ceruza" class="active" data-testid="oojs-tool-ceruza">Ceruza</button>
+          <button id="tool-teglalap" data-testid="oojs-tool-teglalap">Téglalap</button>
+          <button id="tool-kor" data-testid="oojs-tool-kor">Kör</button>
+        </div>
+        <label style="font-size: 0.875rem; display: flex; gap: 0.5rem; align-items: center;">
+          Szín:
+          <input type="color" id="color-picker" value="#8c1d2e" data-testid="oojs-color" style="width: 2.5rem; height: 2rem; border: 1px solid #c7b894; cursor: pointer;" />
+        </label>
+        <label style="font-size: 0.875rem; display: flex; gap: 0.5rem; align-items: center;">
+          Vastagság: <span id="size-label">4</span>px
+          <input type="range" id="size-picker" min="1" max="20" value="4" data-testid="oojs-size" />
+        </label>
+        <div class="action-cell">
+          <button class="btn-academic btn-small" id="undo-btn" data-testid="oojs-undo">Visszavon</button>
+          <button class="btn-burgundy btn-small" id="clear-btn" data-testid="oojs-clear">Törlés</button>
+          <button class="btn-academic btn-small" id="save-btn" data-testid="oojs-save">Mentés PNG</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas-wrap" id="canvas-wrap" data-testid="oojs-canvas-wrap"></div>
+
+    <div class="parchment mt-4">
+      <h4 style="font-size: 1.25rem; color: #0f2a4e; margin-bottom: 0.5rem;">A használt OO-elemek</h4>
+      <ul style="list-style: disc; padding-left: 1.25rem; line-height: 1.7; font-size: 0.9rem;">
+        <li><strong>class</strong>: <span class="font-mono">Shape</span>, <span class="font-mono">Line</span>, <span class="font-mono">Rectangle</span>, <span class="font-mono">Circle</span>, <span class="font-mono">DrawingApp</span></li>
+        <li><strong>constructor</strong>: minden osztály konstruktort használ</li>
+        <li><strong>metódusok</strong>: <span class="font-mono">draw(ctx)</span>, <span class="font-mono">addPoint()</span>, <span class="font-mono">redraw()</span>, <span class="font-mono">undo()</span>, <span class="font-mono">clear()</span>, <span class="font-mono">saveAsImage()</span></li>
+        <li><strong>extends</strong>: <span class="font-mono">Line/Rectangle/Circle extends Shape</span></li>
+        <li><strong>super</strong>: a leszármazott osztályok meghívják a <span class="font-mono">super(color, size)</span>-t</li>
+        <li><strong>document.body.appendChild</strong>: a Mentés PNG funkció ideiglenes &lt;a&gt; linket csatol a body-hoz a fájl letöltéséhez</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-testid="app-footer">
+    <p class="ornament" style="margin-bottom: 0.75rem;">❦  ❦  ❦</p>
+    <p class="author" data-testid="footer-author">Készítette: Kovács Kristóf</p>
+    <p class="neptun" data-testid="footer-neptun">Neptun kód: XADNA6</p>
+    <p class="meta">Budapest · MMXXVI · Web Programozás-1</p>
+  </footer>
+
+  <script>
+
+    class Shape {
+      constructor(color, size) {
+        this.color = color;
+        this.size = size;
+      }
+      draw(_ctx) {
+        throw new Error("draw() implementálandó a leszármazottban");
+      }
+    }
+
+    class Line extends Shape {
+      constructor(color, size) {
+        super(color, size);
+        this.points = [];
+      }
+      addPoint(x, y) { this.points.push({ x: x, y: y }); }
+      draw(ctx) {
+        if (this.points.length < 2) return;
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.size;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.beginPath();
+        ctx.moveTo(this.points[0].x, this.points[0].y);
+        for (let i = 1; i < this.points.length; i++) {
+          ctx.lineTo(this.points[i].x, this.points[i].y);
+        }
+        ctx.stroke();
+      }
+    }
+
+    class Rectangle extends Shape {
+      constructor(color, size, x, y, w, h) {
+        super(color, size);
+        this.x = x; this.y = y; this.w = w; this.h = h;
+      }
+      draw(ctx) {
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.size;
+        ctx.strokeRect(this.x, this.y, this.w, this.h);
+      }
+    }
+
+    class Circle extends Shape {
+      constructor(color, size, cx, cy, r) {
+        super(color, size);
+        this.cx = cx; this.cy = cy; this.r = r;
+      }
+      draw(ctx) {
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.size;
+        ctx.beginPath();
+        ctx.arc(this.cx, this.cy, this.r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+
+    class DrawingApp {
+      constructor(parent) {
+        this.parent = parent;
+        this.shapes = [];
+        this.current = null;
+        this.startPos = null;
+        this.tool = "ceruza";
+        this.color = "#8c1d2e";
+        this.size = 4;
+
+        this.canvas = document.createElement("canvas");
+        this.canvas.width = 900;
+        this.canvas.height = 500;
+        this.canvas.style.background = "#fdfaf3";
+        this.canvas.style.border = "1px solid #c7b894";
+        this.canvas.style.boxShadow = "0 2px 6px rgba(54,36,12,.06)";
+        this.canvas.style.cursor = "crosshair";
+        this.canvas.style.maxWidth = "100%";
+        this.canvas.setAttribute("data-testid", "oojs-canvas");
+        this.parent.appendChild(this.canvas);
+        this.ctx = this.canvas.getContext("2d");
+
+        this.bindEvents();
+        this.redraw();
+      }
+      pos(e) {
+        const r = this.canvas.getBoundingClientRect();
+        const sx = this.canvas.width / r.width;
+        const sy = this.canvas.height / r.height;
+        return { x: (e.clientX - r.left) * sx, y: (e.clientY - r.top) * sy };
+      }
+      setTool(tool)  { this.tool = tool; }
+      setColor(color){ this.color = color; }
+      setSize(size)  { this.size = size; }
+      bindEvents() {
+        const self = this;
+        this.canvas.addEventListener("mousedown", function (e) {
+          const p = self.pos(e);
+          self.startPos = p;
+          if (self.tool === "ceruza") {
+            const line = new Line(self.color, self.size);
+            line.addPoint(p.x, p.y);
+            self.current = line;
+          } else if (self.tool === "teglalap") {
+            self.current = new Rectangle(self.color, self.size, p.x, p.y, 0, 0);
+          } else if (self.tool === "kor") {
+            self.current = new Circle(self.color, self.size, p.x, p.y, 0);
+          }
+        });
+        this.canvas.addEventListener("mousemove", function (e) {
+          if (!self.current) return;
+          const p = self.pos(e);
+          if (self.current instanceof Line) {
+            self.current.addPoint(p.x, p.y);
+          } else if (self.current instanceof Rectangle) {
+            self.current.w = p.x - self.startPos.x;
+            self.current.h = p.y - self.startPos.y;
+          } else if (self.current instanceof Circle) {
+            const dx = p.x - self.startPos.x;
+            const dy = p.y - self.startPos.y;
+            self.current.r = Math.sqrt(dx*dx + dy*dy);
+          }
+          self.redraw();
+        });
+        const finish = function () {
+          if (self.current) {
+            self.shapes.push(self.current);
+            self.current = null;
+            self.redraw();
+          }
+        };
+        this.canvas.addEventListener("mouseup", finish);
+        this.canvas.addEventListener("mouseleave", finish);
+      }
+      redraw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        for (const s of this.shapes) s.draw(this.ctx);
+        if (this.current) this.current.draw(this.ctx);
+      }
+      undo() { this.shapes.pop(); this.redraw(); }
+      clear() { this.shapes = []; this.current = null; this.redraw(); }
+      saveAsImage() {
+        const link = document.createElement("a");
+        link.download = "rajz.png";
+        link.href = this.canvas.toDataURL("image/png");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+
+    const app = new DrawingApp(document.getElementById("canvas-wrap"));
+
+    const tools = ["ceruza", "teglalap", "kor"];
+    tools.forEach(function (t) {
+      document.getElementById("tool-" + t).addEventListener("click", function () {
+        app.setTool(t);
+        tools.forEach(function (other) {
+          document.getElementById("tool-" + other).classList.toggle("active", other === t);
+        });
+      });
+    });
+    document.getElementById("color-picker").addEventListener("input", function (e) {
+      app.setColor(e.target.value);
+    });
+    const sizePicker = document.getElementById("size-picker");
+    const sizeLabel = document.getElementById("size-label");
+    sizePicker.addEventListener("input", function (e) {
+      const v = parseInt(e.target.value, 10);
+      app.setSize(v);
+      sizeLabel.textContent = v;
+    });
+    document.getElementById("undo-btn").addEventListener("click", function () { app.undo(); });
+    document.getElementById("clear-btn").addEventListener("click", function () { app.clear(); });
+    document.getElementById("save-btn").addEventListener("click", function () { app.saveAsImage(); });
+  </script>
+</body>
+</html>

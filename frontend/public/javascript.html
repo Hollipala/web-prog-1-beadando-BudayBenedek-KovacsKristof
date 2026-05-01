@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JavaScript CRUD — Web programozás-1</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header" data-testid="app-header">
+    <div class="inner">
+      <p class="ornament">❦  ❦  ❦</p>
+      <h1 data-testid="main-heading">Web programozás-1 Előadás Házi feladat</h1>
+      <p class="sub">Magyar Feltalálók — Adatbázis kezelő alkalmazás · 2026</p>
+      <nav class="site-nav" data-testid="main-nav">
+        <a href="/">Főoldal</a>
+        <a href="/javascript.html" class="active">JavaScript</a>
+        <a href="/react.html">React</a>
+        <a href="/spa.html">SPA</a>
+        <a href="/fetchapi.html">Fetch API</a>
+        <a href="/axios.html">Axios</a>
+        <a href="/oojs.html">OOJS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main data-testid="javascript-page">
+    <div class="page-title">
+      <p class="chapter">II. FEJEZET</p>
+      <h2>JavaScript CRUD</h2>
+      <p>Vanilla JavaScript · Adatok tömbben tárolva · DOM manipuláció</p>
+    </div>
+
+    <form id="js-form" class="parchment mb-6" data-testid="js-form">
+      <h3 style="font-size: 1.5rem; color: #0f2a4e; margin-bottom: 1rem;">Új feltaláló hozzáadása</h3>
+      <div class="form-grid">
+        <input id="js-nev" type="text" required placeholder="Név" data-testid="js-input-nev" />
+        <input id="js-szul" type="number" placeholder="Születés" data-testid="js-input-szul" />
+        <input id="js-meghal" type="number" placeholder="Halálozás (opc.)" data-testid="js-input-meghal" />
+        <button type="submit" class="btn-academic" data-testid="js-submit-btn"><span id="js-submit-label">Hozzáadás</span></button>
+      </div>
+      <button type="button" id="js-cancel" class="hidden" style="margin-top: 0.75rem; background: none; border: none; color: #8c1d2e; text-decoration: underline; cursor: pointer; font-size: 0.875rem;" data-testid="js-cancel-btn">Szerkesztés megszakítása</button>
+    </form>
+
+    <div class="tbl-wrap">
+      <table data-testid="js-table">
+        <thead>
+          <tr>
+            <th>Kód</th>
+            <th>Név</th>
+            <th>Születés</th>
+            <th>Halálozás</th>
+            <th class="right">Műveletek</th>
+          </tr>
+        </thead>
+        <tbody id="js-tbody"></tbody>
+      </table>
+    </div>
+    <p class="muted italic mt-3 text-center">Megjegyzés: az adatok memóriában (tömbben) tárolódnak — frissítéskor visszaáll a kezdő állapot.</p>
+  </main>
+
+  <footer class="site-footer" data-testid="app-footer">
+    <p class="ornament" style="margin-bottom: 0.75rem;">❦  ❦  ❦</p>
+    <p class="author" data-testid="footer-author">Készítette: Kovács Kristóf</p>
+    <p class="neptun" data-testid="footer-neptun">Neptun kód: XADNA6</p>
+    <p class="meta">Budapest · MMXXVI · Web Programozás-1</p>
+  </footer>
+
+  <script>
+    let inventors = [
+      { fkod: 31, nev: "Jedlik Ányos István", szul: 1800, meghal: 1895 },
+      { fkod: 9,  nev: "Bláthy Ottó Titusz",  szul: 1860, meghal: 1939 },
+      { fkod: 78, nev: "Zipernowsky Károly",  szul: 1853, meghal: 1942 },
+      { fkod: 14, nev: "Déri Miksa",          szul: 1854, meghal: 1938 },
+      { fkod: 5,  nev: "Bánki Donát",         szul: 1859, meghal: 1922 },
+      { fkod: 13, nev: "Csonka János",        szul: 1852, meghal: 1939 },
+      { fkod: 55, nev: "Puskás Tivadar",      szul: 1844, meghal: 1893 },
+      { fkod: 35, nev: "Kandó Kálmán",        szul: 1869, meghal: 1931 },
+      { fkod: 19, nev: "Ganz Ábrahám",        szul: 1814, meghal: 1867 },
+      { fkod: 44, nev: "Mechwart András",     szul: 1834, meghal: 1907 },
+      { fkod: 51, nev: "Petzval József",      szul: 1807, meghal: 1891 },
+      { fkod: 60, nev: "Segner János András", szul: 1704, meghal: 1777 },
+      { fkod: 46, nev: "Mihály Dénes",        szul: 1894, meghal: 1953 },
+      { fkod: 73, nev: "Tihanyi Kálmán",      szul: 1897, meghal: 1947 },
+      { fkod: 79, nev: "Bíró László",         szul: 1899, meghal: 1985 },
+      { fkod: 20, nev: "Gábor Dénes",         szul: 1900, meghal: 1979 },
+      { fkod: 3,  nev: "Bay Zoltán",          szul: 1900, meghal: 1992 },
+      { fkod: 72, nev: "Teller Ede",          szul: 1908, meghal: 2003 },
+      { fkod: 68, nev: "Szilárd Leó",         szul: 1898, meghal: 1964 },
+      { fkod: 77, nev: "Wigner Jenő",         szul: 1902, meghal: 1995 }
+    ];
+
+    let editingId = null;
+
+    const tbody = document.getElementById("js-tbody");
+    const form = document.getElementById("js-form");
+    const inputNev = document.getElementById("js-nev");
+    const inputSzul = document.getElementById("js-szul");
+    const inputMeghal = document.getElementById("js-meghal");
+    const submitLabel = document.getElementById("js-submit-label");
+    const cancelBtn = document.getElementById("js-cancel");
+
+    function render() {
+      tbody.innerHTML = "";
+      inventors.forEach(function (inv) {
+        const tr = document.createElement("tr");
+        tr.setAttribute("data-testid", "js-row-" + inv.fkod);
+        tr.innerHTML =
+          '<td class="mono">' + inv.fkod + '</td>' +
+          '<td>' + inv.nev + '</td>' +
+          '<td>' + (inv.szul != null ? inv.szul : "—") + '</td>' +
+          '<td>' + (inv.meghal != null ? inv.meghal : "—") + '</td>' +
+          '<td class="right"><div class="action-cell">' +
+            '<button class="btn-academic btn-small" data-action="edit" data-id="' + inv.fkod + '" data-testid="js-edit-' + inv.fkod + '">Szerk.</button>' +
+            '<button class="btn-burgundy btn-small" data-action="del" data-id="' + inv.fkod + '" data-testid="js-del-' + inv.fkod + '">Töröl</button>' +
+          '</div></td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    function reset() {
+      editingId = null;
+      form.reset();
+      submitLabel.textContent = "Hozzáadás";
+      cancelBtn.classList.add("hidden");
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const nev = inputNev.value.trim();
+      const szul = inputSzul.value ? parseInt(inputSzul.value, 10) : null;
+      const meghal = inputMeghal.value ? parseInt(inputMeghal.value, 10) : null;
+      if (!nev) return;
+
+      if (editingId !== null) {
+        const idx = inventors.findIndex(function (i) { return i.fkod === editingId; });
+        if (idx >= 0) inventors[idx] = Object.assign({}, inventors[idx], { nev: nev, szul: szul, meghal: meghal });
+      } else {
+        const newId = inventors.length ? Math.max.apply(null, inventors.map(function (i) { return i.fkod; })) + 1 : 1;
+        inventors.push({ fkod: newId, nev: nev, szul: szul, meghal: meghal });
+      }
+      reset();
+      render();
+    });
+
+    cancelBtn.addEventListener("click", function () { reset(); });
+
+    tbody.addEventListener("click", function (e) {
+      const btn = e.target.closest("button[data-action]");
+      if (!btn) return;
+      const id = parseInt(btn.dataset.id, 10);
+      if (btn.dataset.action === "del") {
+        inventors = inventors.filter(function (i) { return i.fkod !== id; });
+        render();
+      } else if (btn.dataset.action === "edit") {
+        const inv = inventors.find(function (i) { return i.fkod === id; });
+        if (!inv) return;
+        editingId = id;
+        inputNev.value = inv.nev;
+        inputSzul.value = inv.szul != null ? inv.szul : "";
+        inputMeghal.value = inv.meghal != null ? inv.meghal : "";
+        submitLabel.textContent = "Mentés";
+        cancelBtn.classList.remove("hidden");
+        inputNev.focus();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>

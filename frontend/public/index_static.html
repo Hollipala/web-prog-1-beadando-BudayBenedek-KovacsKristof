@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Főoldal — Web programozás-1</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header" data-testid="app-header">
+    <div class="inner">
+      <p class="ornament">❦  ❦  ❦</p>
+      <h1 data-testid="main-heading">Web programozás-1 Előadás Házi feladat</h1>
+      <p class="sub">Magyar Feltalálók — Adatbázis kezelő alkalmazás · 2026</p>
+      <nav class="site-nav" data-testid="main-nav">
+        <a href="/index_static.html" class="active">Főoldal</a>
+        <a href="/javascript.html">JavaScript</a>
+        <a href="/react.html">React</a>
+        <a href="/spa.html">SPA</a>
+        <a href="/fetchapi.html">Fetch API</a>
+        <a href="/axios.html">Axios</a>
+        <a href="/oojs.html">OOJS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main data-testid="index-page">
+    <section class="parchment text-center" style="padding: 3rem 2rem;" data-testid="hero-section">
+      <p class="ornament" style="color: #8c1d2e;">A · BEADANDÓ · FELADAT</p>
+      <h2 style="font-size: 3rem; color: #0f2a4e; margin-top: 1rem; margin-bottom: 0.75rem;">Magyar Feltalálók</h2>
+      <p style="font-size: 1.5rem; color: #8c1d2e; font-style: italic; margin-bottom: 1.5rem; font-family: 'Cormorant Garamond', serif;">— Egy hét fejezetből álló web-alkalmazás —</p>
+      <hr class="divider-classic" style="max-width: 28rem; margin: 1rem auto;" />
+      <p style="max-width: 42rem; margin: 0 auto; line-height: 1.7; color: rgba(26, 35, 50, 0.8); font-size: 1.05rem;">
+        Ez az alkalmazás bemutatja a Web programozás-1 előadás során elsajátított modern webfejlesztési technológiákat.
+        Az adatbázis a magyar feltalálók adatait tartalmazza (kutató, találmány, kapcsoló táblákkal),
+        és a feladatok ezeken az adatokon végeznek <em>CRUD (Create, Read, Update, Delete)</em> műveleteket
+        különböző technológiák segítségével.
+      </p>
+    </section>
+
+    <section style="margin-top: 3rem;" data-testid="features-grid">
+      <div class="text-center mb-6">
+        <p class="ornament" style="color: #8c1d2e;">FEJEZETEK</p>
+        <h3 style="font-size: 2rem; color: #0f2a4e; margin-top: 0.5rem;">A feladat részei</h3>
+      </div>
+      <div class="card-grid">
+        <a class="card" href="/javascript.html" data-testid="feature-card-javascript">
+          <div class="card-head"><span class="num">II.</span><span class="ch-label">Fejezet</span></div>
+          <h4>JavaScript</h4>
+          <p class="sub">Tömb-alapú CRUD</p>
+          <hr class="divider-classic" />
+          <p style="font-size: 0.9rem; line-height: 1.6;">Klasszikus JavaScript-tel megvalósított CRUD alkalmazás, melyben az adatok egy tömbben tárolódnak.</p>
+          <p class="more">Megnyitom →</p>
+        </a>
+        <a class="card" href="/react.html" data-testid="feature-card-react">
+          <div class="card-head"><span class="num">III.</span><span class="ch-label">Fejezet</span></div>
+          <h4>React</h4>
+          <p class="sub">Komponens CRUD</p>
+          <hr class="divider-classic" />
+          <p style="font-size: 0.9rem; line-height: 1.6;">React komponensekkel és useState állapotkezeléssel készült feltaláló-kezelő alkalmazás.</p>
+          <p class="more">Megnyitom →</p>
+        </a>
+        <a class="card" href="/spa.html" data-testid="feature-card-spa">
+          <div class="card-head"><span class="num">IV.</span><span class="ch-label">Fejezet</span></div>
+          <h4>SPA</h4>
+          <p class="sub">Számológép & Amőba</p>
+          <hr class="divider-classic" />
+          <p style="font-size: 0.9rem; line-height: 1.6;">Egyoldalas alkalmazás (Single Page Application) két React játékkal: Számológép és Tic-Tac-Toe.</p>
+          <p class="more">Megnyitom →</p>
+        </a>
+        <a class="card" href="/fetchapi.html" data-testid="feature-card-fetch-api">
+          <div class="card-head"><span class="num">V.</span><span class="ch-label">Fejezet</span></div>
+          <h4>Fetch API</h4>
+          <p class="sub">Szerveroldali tárolás</p>
+          <hr class="divider-classic" />
+          <p style="font-size: 0.9rem; line-height: 1.6;">JavaScript + Fetch API-val készült CRUD, az adatok MongoDB adatbázisban (FastAPI) tárolódnak.</p>
+          <p class="more">Megnyitom →</p>
+        </a>
+        <a class="card" href="/axios.html" data-testid="feature-card-axios">
+          <div class="card-head"><span class="num">VI.</span><span class="ch-label">Fejezet</span></div>
+          <h4>Axios</h4>
+          <p class="sub">React + Axios</p>
+          <hr class="divider-classic" />
+          <p style="font-size: 0.9rem; line-height: 1.6;">React + Axios alapú alkalmazás, ami a szerver oldali REST API-val kommunikál.</p>
+          <p class="more">Megnyitom →</p>
+        </a>
+        <a class="card" href="/oojs.html" data-testid="feature-card-oojs">
+          <div class="card-head"><span class="num">VII.</span><span class="ch-label">Fejezet</span></div>
+          <h4>OOJS</h4>
+          <p class="sub">Objektumorientált rajzoló</p>
+          <hr class="divider-classic" />
+          <p style="font-size: 0.9rem; line-height: 1.6;">Objektumorientált JavaScript rajzoló alkalmazás class, constructor, extends, super használatával.</p>
+          <p class="more">Megnyitom →</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="parchment text-center" style="margin-top: 3rem; padding: 2.5rem 2rem;" data-testid="db-info">
+      <p class="ornament" style="color: #8c1d2e;">FELHASZNÁLT ADATBÁZIS</p>
+      <h3 style="font-size: 2rem; color: #0f2a4e; margin-top: 0.5rem; margin-bottom: 1.5rem;">A választott adattáblák</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; text-align: left;">
+        <div>
+          <h4 style="font-size: 1.25rem; color: #0f2a4e; margin-bottom: 0.5rem;">kutato.txt</h4>
+          <p style="font-size: 0.9rem;">Feltalálók: <span class="font-mono" style="font-size: 0.8rem;">fkod, nev, szul, meghal</span></p>
+        </div>
+        <div>
+          <h4 style="font-size: 1.25rem; color: #0f2a4e; margin-bottom: 0.5rem;">talalmany.txt</h4>
+          <p style="font-size: 0.9rem;">Találmányok: <span class="font-mono" style="font-size: 0.8rem;">tkod, talnev</span></p>
+        </div>
+        <div>
+          <h4 style="font-size: 1.25rem; color: #0f2a4e; margin-bottom: 0.5rem;">kapcsol.txt</h4>
+          <p style="font-size: 0.9rem;">Kapcsolótábla: <span class="font-mono" style="font-size: 0.8rem;">tkod, fkod</span></p>
+        </div>
+      </div>
+      <p class="italic muted" style="margin-top: 1.5rem;">A CRUD alkalmazások a <strong>kutato.txt</strong> (feltalálók) tábla adatain dolgoznak.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-testid="app-footer">
+    <p class="ornament" style="margin-bottom: 0.75rem;">❦  ❦  ❦</p>
+    <p class="author" data-testid="footer-author">Készítette: Kovács Kristóf</p>
+    <p class="neptun" data-testid="footer-neptun">Neptun kód: XADNA6</p>
+    <p class="meta">Budapest · MMXXVI · Web Programozás-1</p>
+  </footer>
+</body>
+</html>
