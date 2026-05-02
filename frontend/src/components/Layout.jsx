@@ -39,8 +39,8 @@ export default function Layout({ children }) {
       <main className="page-anim">{children}</main>
       <footer className="site-footer">
         <p className="ornament" style={{ marginBottom: "0.75rem" }}>&#10086;  &#10086;  &#10086;</p>
-        <p className="author">Készítette: Kovács Kristóf</p>
-        <p className="neptun">Neptun kód: XADNA6</p>
+        <p className="author">Készítette: Kovács Kristóf Buday Benedek</p>
+        <p className="neptun">Neptun kód: XADNA6 - OXQLH4</p>
         <p className="meta">Budapest · MMXXVI · Web Programozás-1</p>
       </footer>
     </>
